@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public static class BuildPipelineConfigGenerator
         CreateFolder("Assets", "Settings");
         CreateFolder("Assets/Settings", "BuildPipeline");
         Create<BuildTypesConfig>(BuildPipelinePaths.BuildTypesConfig);
+        Directory.CreateDirectory(BuildPipelinePaths.MarketFolder);
     }
 
     public static T Create<T>(string path) where T : ScriptableObject

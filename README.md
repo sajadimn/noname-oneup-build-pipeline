@@ -10,7 +10,7 @@ This package contains a build window and per-store build configs for Android and
 3. Open `OneUp/Build/Build Setting` and build.
 
 ## Files for one build
-Keep them in a folder outside `Assets`, such as `Markets/`, so they never ship by themselves. A file only enters a build when a build config attaches it: `manifestPath`, `resPath`, `marketFilesPath`, or a row in `replaceExtraFile` or `replaceExtraDirectory` with where it comes from and where it goes. A missing file stops the build before it starts.
+Keep them in `Assets/Settings/BuildPipeline/Market~`, which the package creates empty. Unity ignores `~` folders, so nothing there ships by itself. To track it in Git despite a global `*~` ignore rule, add `!/Assets/Settings/BuildPipeline/Market~/**` to your `.gitignore`. A file only enters a build when a build config attaches it: `manifestPath`, `resPath`, `marketFilesPath`, or a row in `replaceExtraFile` or `replaceExtraDirectory` with where it comes from and where it goes. A missing file stops the build before it starts.
 
 ## Bundle signer
 Turn on `bundleSignerState` to create the signature file for Cafe Bazaar AAB builds. An empty `bundleSignerJarFile` uses the jar in `Tools~/BundleSigner`.
