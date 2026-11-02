@@ -1,0 +1,34 @@
+{
+  "name": "noname-oneup-build-pipeline",
+  "displayName": "Build Pipeline",
+  "version": "1.0.0",
+  "unity": "2021.3",
+  "license": "Copyright (c) Noname.OneUp All rights reserved. ",
+  "type": "Tools",
+  "category": "Utilities",
+  "description": "This package contains a build window and per-store build configs for Android and iOS.",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "gitDependencies": {},
+  "samples": [],
+  "hideInEditor": true,
+  "keywords": [
+    "Noname",
+    "OneUp",
+    "Build",
+    "BuildPipeline"
+  ],
+  "author": {
+    "name": "OneUp",
+    "email": "imani.sajad92@gmail.com",
+    "url": "https://github.com/sajadimn"
+  },
+  "repository": {
+    "url": "https://github.com/sajadimn/noname-oneup-build-pipeline.git",
+    "type": "git"
+  },
+  "publishConfig": {
+    "registry": "https://github.com/sajadimn/noname-oneup-build-pipeline"
+  }
+}
