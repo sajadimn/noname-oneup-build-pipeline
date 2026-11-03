@@ -9,7 +9,12 @@ public class BuildTypesConfig : ScriptableObject
 
     [Header("Options")] public bool cleanBeeCache = true;
     public bool restoreFilesAfterBuild = true;
-    public List<string> restorePaths = new List<string>();
+    public List<string> restorePaths = new List<string>
+    {
+        "Assets/Plugins/Android/mainTemplate.gradle",
+        "Assets/Plugins/Android/FirebaseCrashlytics.androidlib/res/values/crashlytics_build_id.xml",
+        "ProjectSettings/AndroidResolverDependencies.xml"
+    };
     public string googlePlayGamesVersion = "2.3.0";
 }
 

@@ -34,14 +34,23 @@ public class BuildWindowEditor : EditorWindow
         Selection.activeObject = AssetDatabase.LoadAssetAtPath<BuildTypesConfig>(BuildPipelinePaths.BuildTypesConfig);
     }
 
-    [MenuItem("OneUp/Build/Create Android Build Config", false, 3)]
+    [MenuItem("OneUp/Build/Create Store Build Configs", false, 3)]
+    public static void CreateStoreBuildConfigs()
+    {
+        BuildPipelineConfigGenerator.Generate();
+        BuildTypesConfig typesConfig = AssetDatabase.LoadAssetAtPath<BuildTypesConfig>(BuildPipelinePaths.BuildTypesConfig);
+        BuildPipelineConfigGenerator.CreateStoreConfigs(BuildPipelinePaths.Folder, typesConfig);
+        Selection.activeObject = typesConfig;
+    }
+
+    [MenuItem("OneUp/Build/Create Android Build Config", false, 4)]
     public static void CreateAndroidBuildConfig()
     {
         BuildPipelineConfigGenerator.Generate();
         Selection.activeObject = BuildPipelineConfigGenerator.Create<AndroidBuildConfig>(BuildPipelinePaths.AndroidBuildConfig);
     }
 
-    [MenuItem("OneUp/Build/Create iOS Build Config", false, 4)]
+    [MenuItem("OneUp/Build/Create iOS Build Config", false, 5)]
     public static void CreateiOSBuildConfig()
     {
         BuildPipelineConfigGenerator.Generate();
