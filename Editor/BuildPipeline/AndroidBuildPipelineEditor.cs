@@ -216,8 +216,8 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
         if (!androidBuildConfig.bundleSignerState)
             return true;
 
-        string signerJar = BuildRules.GetBundleSignerJar(androidBuildConfig.bundleSignerJarFile,
-            BuildPipelinePaths.Resolve(BuildPipelinePaths.BundleSignerJar));
+        string signerJar = BuildPipelinePaths.Resolve(BuildRules.GetBundleSignerJar(
+            androidBuildConfig.bundleSignerJarFile, BuildPipelinePaths.BundleSignerJar));
         try
         {
             string outputPath = _buildOptions.locationPathName;
