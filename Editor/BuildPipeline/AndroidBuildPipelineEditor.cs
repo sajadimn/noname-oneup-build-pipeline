@@ -202,7 +202,7 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
         string symbolFileName = $"-{_buildConfigData.version}-v{_buildConfigData.buildNumber}.symbols.zip";
         string symbolFileLocation =
             _buildOptions.locationPathName.Replace($".{androidBuildConfig.exportType.ToString()}", symbolFileName);
-        string symbolLocation = Application.dataPath.Replace("Assets", symbolFileLocation);
+        string symbolLocation = BuildRules.ProjectFilePath(Application.dataPath, symbolFileLocation);
         AndroidSymbolShrinker.ShrinkSymbolFile(symbolLocation);
         return true;
     }
@@ -221,10 +221,10 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
         try
         {
             string outputPath = _buildOptions.locationPathName;
-            string aabPath = Application.dataPath.Replace("Assets", outputPath);
+            string aabPath = BuildRules.ProjectFilePath(Application.dataPath, outputPath);
             string binFileName = outputPath.Replace("." + _buildConfigData.buildConfig.exportType.ToString(), ".bin");
-            string binFilePath = Application.dataPath.Replace("Assets", binFileName);
-            string binPath = Application.dataPath.Replace("Assets", "Build/BundleSigner");
+            string binFilePath = BuildRules.ProjectFilePath(Application.dataPath, binFileName);
+            string binPath = BuildRules.ProjectFilePath(Application.dataPath, "Build/BundleSigner");
             if (Directory.Exists(binPath))
                 Directory.Delete(binPath, true);
 

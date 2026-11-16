@@ -34,7 +34,7 @@ public class AndroidSymbolShrinker
     [MenuItem("OneUp/Build/Shrink Symbol File", false, 10)]
     public static void ShrinkSymbolFile()
     {
-        symbolLocation = Application.dataPath.Replace("Assets", "Build");
+        symbolLocation = BuildRules.ProjectFilePath(Application.dataPath, "Build");
         symbolLocation = EditorUtility.OpenFilePanel(
             "Open Android Symbol Package to shrink", symbolLocation, "*.zip");
         if (string.IsNullOrEmpty(symbolLocation))
