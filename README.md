@@ -12,7 +12,11 @@ This package contains a build window and per-store build configs for Android and
 `OneUp/Build/Create Store Build Configs` adds any store config that is missing, and its row in `BuildTypesConfig`. Configs and rows you already have are never changed. `Create Android Build Config` and `Create iOS Build Config` make an empty config for anything else.
 
 ## Files for one build
-Keep them in `Assets/Settings/BuildPipeline/Market~`, which the package creates empty. Unity ignores `~` folders, so nothing there ships by itself. To track it in Git despite a global `*~` ignore rule, add `!/Assets/Settings/BuildPipeline/Market~/**` to your `.gitignore`. A file only enters a build when a build config attaches it: `manifestPath`, `resPath`, `marketFilesPath`, or a row in `replaceExtraFile` or `replaceExtraDirectory` with where it comes from and where it goes. A missing file stops the build before it starts. A path that starts with `Packages/<package name>/` is resolved to wherever that package is installed on the computer, so use it for files that come from a package (a tarball package lives in `Library/PackageCache/<name>@<hash>`, which differs per computer, so never store that path).
+`Assets/Settings/BuildPipeline/Market~` is created empty by the package. Put there the files that differ per store build, such as the store `AndroidManifest.xml`. The `~` at the end makes Unity ignore the folder, so nothing in it ships by itself or compiles into the game; a build config copies a file into the project only for that build, and the project is restored afterwards. To track it in Git despite a global `*~` ignore rule, add `!/Assets/Settings/BuildPipeline/Market~/**` to your `.gitignore`.
+
+A file only enters a build when a build config attaches it: `manifestPath`, `resPath`, `marketFilesPath`, or a row in `replaceExtraFile` or `replaceExtraDirectory` with where it comes from and where it goes. A missing file stops the build before it starts.
+
+Files that come from another package, such as the `Stores~` folder of `noname-oneup-marketplace` (store jars and manifests Unity must not import), are written as `Packages/<package name>/...`. The build pipeline resolves that to the folder where the package is installed on the computer. Never store a `Library/PackageCache/<name>@<hash>` path: for a tarball package the hash differs on every computer, so the build breaks anywhere else.
 
 ## Bundle signer
 Turn on `bundleSignerState` to create the signature file for Cafe Bazaar AAB builds. An empty `bundleSignerJarFile` uses the jar in `Tools~/BundleSigner`.
