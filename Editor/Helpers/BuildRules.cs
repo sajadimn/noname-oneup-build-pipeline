@@ -54,6 +54,11 @@ public static class BuildRules
         return string.IsNullOrEmpty(configured) || IsPackageCachePath(configured) ? packaged : configured;
     }
 
+    public static string ProjectFilePath(string dataPath, string relative)
+    {
+        return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(dataPath), relative);
+    }
+
     public static bool IsPackageCachePath(string path)
     {
         return !string.IsNullOrEmpty(path) && path.Replace('\\', '/').Contains("Library/PackageCache/");
