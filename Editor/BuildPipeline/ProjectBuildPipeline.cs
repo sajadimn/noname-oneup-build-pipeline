@@ -66,7 +66,7 @@ public abstract class ProjectBuildPipeline
         if (!_buildConfigData.buildConfig.hasMarketFile)
             return;
 
-        string marketFilesPath = System.IO.Path.GetFullPath(_buildConfigData.buildConfig.marketFilesPath);
+        string marketFilesPath = BuildPipelinePaths.Resolve(_buildConfigData.buildConfig.marketFilesPath);
         FileUtil.ReplaceDirectory(marketFilesPath, oldMarketPath);
     }
 
@@ -121,11 +121,6 @@ public abstract class ProjectBuildPipeline
         return paths;
     }
 
-    private static string GetFullPath(string path)
-    {
-        return string.IsNullOrEmpty(path) ? path : System.IO.Path.GetFullPath(path);
-    }
-
     public virtual List<string> GetRequiredPaths(BuildConfigData _buildConfigData)
     {
         BuildConfig config = _buildConfigData.buildConfig;
@@ -135,7 +130,7 @@ public abstract class ProjectBuildPipeline
         foreach (DirectoryPathAddress folder in config.replaceExtraDirectory)
             paths.Add(folder.replaceDirectoryFrom);
         if (config.hasMarketFile)
-            BuildRules.AddRequired(paths, GetFullPath(config.marketFilesPath), nameof(config.marketFilesPath));
+            BuildRules.AddRequired(paths, BuildPipelinePaths.Resolve(config.marketFilesPath), nameof(config.marketFilesPath));
         if (config.hasGameAnalytics)
             BuildRules.AddRequired(paths, config.gameAnalyticsPath, nameof(config.gameAnalyticsPath));
         return paths;
