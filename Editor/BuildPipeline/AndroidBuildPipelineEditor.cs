@@ -84,7 +84,7 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
         string oldManifestPath = Application.dataPath + "/Plugins/Android/AndroidManifest.xml";
         if (File.Exists(oldManifestPath))
             FileUtil.DeleteFileOrDirectory(oldManifestPath);
-        FileUtil.CopyFileOrDirectory(androidBuildConfig.manifestPath, oldManifestPath);
+        FileUtil.CopyFileOrDirectory(BuildPipelinePaths.Resolve(androidBuildConfig.manifestPath), oldManifestPath);
     }
 
     private void SetFirebase(BuildConfigData _buildConfigData)
@@ -101,7 +101,7 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
             Application.dataPath + "/Plugins/Android/FirebaseApp.androidlib";
         if (Directory.Exists(oldFirebaseManifestPath))
             FileUtil.DeleteFileOrDirectory(oldFirebaseManifestPath);
-        FileUtil.ReplaceDirectory(androidBuildConfig.firebaseManifestPath, oldFirebaseManifestPath);
+        FileUtil.ReplaceDirectory(BuildPipelinePaths.Resolve(androidBuildConfig.firebaseManifestPath), oldFirebaseManifestPath);
     }
 
     public override List<string> GetFilesToRestore(BuildConfigData _buildConfigData)
@@ -132,13 +132,13 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
             return paths;
 
         if (config.hasManifest)
-            BuildRules.AddRequired(paths, config.manifestPath, nameof(config.manifestPath));
+            BuildRules.AddRequired(paths, BuildPipelinePaths.Resolve(config.manifestPath), nameof(config.manifestPath));
         if (config.hasRes)
             BuildRules.AddRequired(paths, config.resPath, nameof(config.resPath));
         if (config.hasFirebase)
         {
             BuildRules.AddRequired(paths, config.firebaseJsonPath, nameof(config.firebaseJsonPath));
-            BuildRules.AddRequired(paths, config.firebaseManifestPath, nameof(config.firebaseManifestPath));
+            BuildRules.AddRequired(paths, BuildPipelinePaths.Resolve(config.firebaseManifestPath), nameof(config.firebaseManifestPath));
         }
 
         if (config.hasCustomKeystore)
@@ -217,7 +217,7 @@ public class AndroidBuildPipelineEditor : ProjectBuildPipeline
             return true;
 
         string signerJar = BuildRules.GetBundleSignerJar(androidBuildConfig.bundleSignerJarFile,
-            System.IO.Path.GetFullPath(BuildPipelinePaths.BundleSignerJar));
+            BuildPipelinePaths.Resolve(BuildPipelinePaths.BundleSignerJar));
         try
         {
             string outputPath = _buildOptions.locationPathName;
