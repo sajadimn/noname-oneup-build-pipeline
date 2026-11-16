@@ -20,6 +20,7 @@ public static class BuildPipelineConfigGenerator
         Directory.CreateDirectory(BuildPipelinePaths.MarketFolder);
         if (NeedsStoreConfigs(typesConfig))
             CreateStoreConfigs(BuildPipelinePaths.Folder, typesConfig);
+        ApplyBundleSignerJarToProject();
     }
 
     public static bool CreateGitIgnore(string folder)
@@ -30,6 +31,38 @@ public static class BuildPipelineConfigGenerator
 
         File.WriteAllText(path, BuildPipelinePaths.GitIgnoreContent);
         return true;
+    }
+
+    public static bool ApplyBundleSignerJar(AndroidBuildConfig config)
+    {
+        if (config == null || !config.bundleSignerState)
+            return false;
+
+        if (!string.IsNullOrEmpty(config.bundleSignerJarFile) && !BuildRules.IsPackageCachePath(config.bundleSignerJarFile))
+            return false;
+
+        if (config.bundleSignerJarFile == BuildPipelinePaths.BundleSignerJar)
+            return false;
+
+        config.bundleSignerJarFile = BuildPipelinePaths.BundleSignerJar;
+        return true;
+    }
+
+    public static void ApplyBundleSignerJarToProject()
+    {
+        bool changed = false;
+        foreach (string guid in AssetDatabase.FindAssets("t:AndroidBuildConfig", new[] { BuildPipelinePaths.Folder }))
+        {
+            AndroidBuildConfig config = AssetDatabase.LoadAssetAtPath<AndroidBuildConfig>(AssetDatabase.GUIDToAssetPath(guid));
+            if (!ApplyBundleSignerJar(config))
+                continue;
+
+            EditorUtility.SetDirty(config);
+            changed = true;
+        }
+
+        if (changed)
+            AssetDatabase.SaveAssets();
     }
 
     public static bool NeedsStoreConfigs(BuildTypesConfig typesConfig)
@@ -75,6 +108,7 @@ public static class BuildPipelineConfigGenerator
         config.targetArchitectures = BuildStoreConfigs.AndroidArchitectures;
         config.bundleSignerState = store.bundleSignerState;
         config.bundleSignerJarFile = "";
+        ApplyBundleSignerJar(config);
         return config;
     }
 

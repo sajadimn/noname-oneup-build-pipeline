@@ -19,7 +19,7 @@ A file only enters a build when a build config attaches it: `manifestPath`, `res
 Files that come from another package, such as the `Stores~` folder of `noname-oneup-marketplace` (store jars and manifests Unity must not import), are written as `Packages/<package name>/...`. The build pipeline resolves that to the folder where the package is installed on the computer. Never store a `Library/PackageCache/<name>@<hash>` path: for a tarball package the hash differs on every computer, so the build breaks anywhere else.
 
 ## Bundle signer
-Turn on `bundleSignerState` to create the signature file for Cafe Bazaar AAB builds. An empty `bundleSignerJarFile` uses the jar in `Tools~/BundleSigner`.
+Turn on `bundleSignerState` to create the signature file for Cafe Bazaar AAB builds. When the package is imported, every config with `bundleSignerState` on and an empty `bundleSignerJarFile` (or an old `Library/PackageCache/...` path) gets `Packages/noname-oneup-build-pipeline/Tools~/BundleSigner/bundlesigner-0.1.13.jar`, the jar in the package, written in the portable `Packages/...` form that works on every computer. Any other path you set is kept.
 
 ## Optional packages
 | Package | What it adds | Without it |
