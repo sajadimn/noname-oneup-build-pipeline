@@ -15,10 +15,21 @@ public static class BuildPipelineConfigGenerator
     {
         CreateFolder("Assets", "Settings");
         CreateFolder("Assets/Settings", "BuildPipeline");
+        CreateGitIgnore(BuildPipelinePaths.Folder);
         BuildTypesConfig typesConfig = Create<BuildTypesConfig>(BuildPipelinePaths.BuildTypesConfig);
         Directory.CreateDirectory(BuildPipelinePaths.MarketFolder);
         if (NeedsStoreConfigs(typesConfig))
             CreateStoreConfigs(BuildPipelinePaths.Folder, typesConfig);
+    }
+
+    public static bool CreateGitIgnore(string folder)
+    {
+        string path = Path.Combine(folder, ".gitignore");
+        if (File.Exists(path))
+            return false;
+
+        File.WriteAllText(path, BuildPipelinePaths.GitIgnoreContent);
+        return true;
     }
 
     public static bool NeedsStoreConfigs(BuildTypesConfig typesConfig)
